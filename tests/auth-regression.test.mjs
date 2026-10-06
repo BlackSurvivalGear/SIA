@@ -161,3 +161,13 @@ test("expanded expiry officer rows show licence type", () => {
   assert.ok(js.includes("<th>Licence Type</th>"), "expiry details are missing Licence Type heading");
   assert.ok(js.includes('a.licence.licenceType||"—"'), "expiry details are missing the officer licence type");
 });
+
+
+test("officer list supports search and a five-row scrolling viewport", () => {
+  assert.ok(html.includes('id="officerSearch"'), "officer search input missing");
+  assert.ok(html.includes("officer-table-scroll"), "officer scrolling viewport missing");
+  assert.ok(html.includes("max-height:305px"), "officer viewport is not constrained to approximately five rows");
+  assert.ok(html.includes("position:sticky"), "officer table headings do not remain visible while scrolling");
+  assert.ok(js.includes("function filterOfficers()"), "officer search filter missing");
+  assert.ok(js.includes('addEventListener("input",filterOfficers)'), "officer search is not live");
+});
