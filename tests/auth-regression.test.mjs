@@ -182,3 +182,12 @@ test("authentication controls are bound explicitly and only once", () => {
   assert.ok(js.includes('$("googleSignIn").onclick=()=>signInWithPopup'), "Google sign-in button is not bound");
   assert.ok(js.includes("bindAuthControls();"), "auth controls are not initialised");
 });
+
+
+test("officers show licence Type after Phone and Add officer captures it", () => {
+  assert.ok(html.includes("<th>Phone</th><th>Type</th><th>SIA Licence</th>"), "Type column is not positioned after Phone");
+  assert.ok(html.includes('id="officerLicenceType"'), "Add officer licence type field missing");
+  assert.ok(js.includes('id="officerType-${o.id}"'), "officer Type cell missing");
+  assert.ok(js.includes('typeCell.textContent=l.licenceType||"—"'), "registered licence type does not update officer row");
+  assert.ok(js.includes('licenceType:$("officerLicenceType").value'), "Add officer does not store selected licence type");
+});
