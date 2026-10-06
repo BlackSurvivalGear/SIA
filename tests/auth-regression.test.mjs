@@ -243,3 +243,10 @@ test("company user invitations join the existing tenant securely", () => {
   assert.ok(rules.includes("request.resource.data.role in ['admin','viewer']"), "invitation roles are not restricted");
   assert.ok(rules.includes("exists(/databases/$(database)/documents/invitations/$(request.auth.token.email))"), "membership creation is not gated by invitation");
 });
+
+
+test("invited-user workspace can finish invitation claim and render", () => {
+  assert.ok(js.includes("getDocs,deleteDoc,serverTimestamp"), "deleteDoc is not imported for invitation/member cleanup");
+  assert.ok(js.includes('console.warn("Invitation consumed but cleanup is pending"'), "invitation cleanup can still abort workspace loading");
+  assert.ok(js.includes('$("workspace").classList.remove("hidden")'), "authenticated company workspace reveal missing");
+});
