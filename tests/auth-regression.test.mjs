@@ -4,6 +4,7 @@ import {readFile} from "node:fs/promises";
 
 const html = await readFile(new URL("../app.html", import.meta.url), "utf8");
 const js = await readFile(new URL("../app.js", import.meta.url), "utf8");
+const rules = await readFile(new URL("../firestore.rules", import.meta.url), "utf8");
 
 test("authentication card contract remains present", () => {
   for (const id of ["authPanel","signInTab","signUpTab","email","password","authSubmit","googleSignIn","signOut"]) {
