@@ -111,7 +111,18 @@ test("SIA licence workflow uses expiry and verification dates only", () => {
 
 
 test("expiry warning cards expand to matching officer details", () => {
-  for (const token of ["data-alert-band","data-alert-details","aria-expanded","Select a warning card"]) assert.ok(js.includes(token), `missing interactive expiry contract: ${token}`);
+  for (const token of ["data-alert-band","alertDetails","aria-expanded","Select a warning card"]) assert.ok(js.includes(token), `missing interactive expiry contract: ${token}`);
   for (const heading of ["Name","Email","Phone","SIA Licence","Contact"]) assert.ok(js.includes(`<th>${heading}</th>`), `missing expiry officer field: ${heading}`);
   assert.ok(js.includes("contactButtons(o)"), "expiry details do not reuse officer contact actions");
+});
+
+
+test("expiry officer rows render in one separate panel below all summary cards", () => {
+  const summary = html.indexOf('id="alertSummary"');
+  const details = html.indexOf('id="alertDetails"');
+  const alerts = html.indexOf('id="expiryAlerts"');
+  assert.ok(summary < details && details < alerts, "expiry details panel is not below the summary cards");
+  assert.ok(!js.includes("data-alert-details"), "officer rows are still embedded inside individual cards");
+  assert.ok(js.includes('details.classList.add("hidden")'), "second click does not hide the officer panel");
+  assert.ok(js.includes('if(open)return'), "selected card does not toggle closed");
 });
