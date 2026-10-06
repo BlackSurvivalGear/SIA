@@ -255,3 +255,13 @@ test("invited-user workspace can finish invitation claim and render", () => {
 test("owner row never shows a Remove control", () => {
   assert.ok(js.includes('u.role==="owner"?"Owner"'), "owner is not protected from a visible Remove control");
 });
+
+
+test("company invitation queues a transactional email", () => {
+  assert.ok(js.includes('addDoc(collection(db,"mail")'), "invitation email is not queued");
+  assert.ok(js.includes("Access invitation created and email queued for delivery."), "email queue confirmation missing");
+  assert.ok(js.includes("Accept invitation"), "invitation email CTA missing");
+  assert.ok(js.includes("https://blacksurvivalgear.github.io/SIA/app.html"), "invitation email does not point to SCM");
+  assert.ok(rules.includes("match /mail/{mailId}"), "mail queue rules missing");
+  assert.ok(rules.includes("admin(request.resource.data.companyId)"), "mail queue is not restricted to company admins");
+});
