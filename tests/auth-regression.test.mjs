@@ -69,3 +69,14 @@ test("SIA expiry monitoring uses the approved warning bands", () => {
   assert.match(html, /Licence Expiry Monitoring/);
   assert.ok(js.includes("renderExpiryAlerts(rows)"), "expiry alert summary is not rendered from licence data");
 });
+
+
+test("workspace prioritises compliance monitoring over administration", () => {
+  const company = html.indexOf('id="companyTitle"');
+  const expiry = html.indexOf("Licence Expiry Monitoring");
+  const officers = html.indexOf("<h2>Officers</h2>");
+  const register = html.indexOf("<h2>SIA Licence Register</h2>");
+  const addOfficer = html.indexOf("<h2>Add officer</h2>");
+  assert.ok(company < expiry && expiry < officers && officers < register && register < addOfficer, "workspace panel order regressed");
+  assert.ok(!html.includes("Phase 1 workforce foundation"), "development-only Phase 1 label is visible");
+});
