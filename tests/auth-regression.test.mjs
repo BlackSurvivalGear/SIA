@@ -196,7 +196,7 @@ test("officers show licence Type after Phone and Add officer captures it", () =>
 test("officer toolbar uses compact search with licence type filter", () => {
   assert.ok(html.includes('id="officerTypeFilter"'), "licence type filter missing beside search");
   assert.ok(html.includes("All licence types"), "licence type filter default missing");
-  assert.ok(html.includes("width:min(100%,300px)"), "officer search has not been reduced");
+  assert.ok(html.includes("flex:0 0 260px;width:260px"), "officer search is not fixed to the requested compact width");
   assert.ok(js.includes('typeFilter.addEventListener("change",filterOfficers)'), "licence type filter is not responsive");
   assert.ok(js.includes('data-officer-type'), "officer rows do not expose licence type for filtering");
 });
