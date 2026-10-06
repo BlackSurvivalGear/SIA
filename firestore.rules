@@ -4,6 +4,7 @@ service cloud.firestore {
   function signedIn(){return request.auth != null;}
   function member(companyId){return signedIn() && exists(/databases/$(database)/documents/companies/$(companyId)/members/$(request.auth.uid));}
   function admin(companyId){return member(companyId) && get(/databases/$(database)/documents/companies/$(companyId)/members/$(request.auth.uid)).data.role in ['owner','admin'];}
+  match /users/{uid} { allow read, write: if signedIn() && request.auth.uid == uid; }
   match /companies/{companyId} {
    allow read: if member(companyId); allow create: if signedIn(); allow update,delete: if admin(companyId);
    match /members/{uid} {allow read: if member(companyId); allow create: if signedIn() && request.auth.uid == uid; allow update,delete: if admin(companyId);}
