@@ -50,3 +50,14 @@ test("SIA licence save failures are visible instead of appearing unresponsive", 
   assert.ok(js.includes("SIA licence save failed"));
   assert.ok(js.includes("Licence could not be saved"));
 });
+
+
+test("manual SIA verification copies the licence number and records the audit marker", () => {
+  assert.match(html, /<th>Verify<\/th><th>Verified<\/th>/);
+  assert.ok(js.includes("https://rolh.services.sia.homeoffice.gov.uk/"), "missing official SIA register destination");
+  assert.ok(js.includes("navigator.clipboard.writeText"), "licence number is not copied for verification");
+  assert.ok(js.includes("Licence number copied"), "missing copied-number user hint");
+  for (const token of ["verifiedAt","verifiedDate","verifiedBy","SIA verification update failed"]) {
+    assert.ok(js.includes(token), `missing verification contract: ${token}`);
+  }
+});
