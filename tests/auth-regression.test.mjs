@@ -126,3 +126,11 @@ test("expiry officer rows render in one separate panel below all summary cards",
   assert.ok(js.includes('details.classList.add("hidden")'), "second click does not hide the officer panel");
   assert.ok(js.includes('if(open)return'), "selected card does not toggle closed");
 });
+
+
+test("active expiry bands use graduated warning colours and primary save actions are green", () => {
+  for (const token of ["alert-expired","alert-7-days","alert-14-days","alert-30-days","alert-60-90-days","has-alert"]) assert.ok(html.includes(token)||js.includes(token), `missing warning colour contract: ${token}`);
+  assert.match(html, /id="saveLicence" class="success-action"/);
+  assert.match(html, /id="addOfficer" class="success-action"/);
+  assert.ok(js.includes('count?"has-alert alert-"+tone:""'), "empty warning cards should remain neutral");
+});
