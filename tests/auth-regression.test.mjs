@@ -203,7 +203,7 @@ test("officer toolbar uses compact search with licence type filter", () => {
 
 
 test("company heading is centered and signed-in profile opens settings", () => {
-  assert.ok(html.includes("company-heading{text-align:center}"), "company heading is not centered");
+  assert.ok(html.includes(".company-heading{text-align:center}"), "company heading is not centered");
   assert.ok(html.includes('id="profileButton"'), "signed-in profile button missing");
   assert.ok(html.includes('id="settingsPanel"'), "settings panel missing");
   assert.ok(js.includes('$("profileButton").onclick=()=>$("settingsPanel").classList.toggle("hidden")'), "profile button does not open settings");
