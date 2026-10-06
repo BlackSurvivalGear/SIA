@@ -62,3 +62,10 @@ test("manual SIA verification copies the licence number and records the audit ma
     assert.ok(js.includes(token), `missing verification contract: ${token}`);
   }
 });
+
+
+test("SIA expiry monitoring uses the approved warning bands", () => {
+  for (const token of ["90 DAYS","60 DAYS","30 DAYS","14 DAYS","7 DAYS","EXPIRED"]) assert.ok(js.includes(token), `missing expiry band: ${token}`);
+  assert.match(html, /Licence Expiry Monitoring/);
+  assert.ok(js.includes("renderExpiryAlerts(rows)"), "expiry alert summary is not rendered from licence data");
+});
