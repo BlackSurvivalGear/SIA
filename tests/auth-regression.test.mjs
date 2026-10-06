@@ -155,3 +155,9 @@ test("officer contact actions include an Email mailto button", () => {
   assert.ok(js.includes('window.location.href="mailto:"+btn.dataset.email'), "Email button is not wired to mailto");
   assert.ok(js.includes(">Email</button>"), "Email action is not rendered as a button");
 });
+
+
+test("expanded expiry officer rows show licence type", () => {
+  assert.ok(js.includes("<th>Licence Type</th>"), "expiry details are missing Licence Type heading");
+  assert.ok(js.includes('a.licence.licenceType||"—"'), "expiry details are missing the officer licence type");
+});
