@@ -45,3 +45,8 @@ test("SIA licence register is additive and preserves officer workspace contract"
   assert.ok(js.includes('"siaLicences"'), "missing SIA licence Firestore collection");
   assert.ok(js.includes("licenceStatus"), "missing licence expiry status calculation");
 });
+
+test("SIA licence save failures are visible instead of appearing unresponsive", () => {
+  assert.ok(js.includes("SIA licence save failed"));
+  assert.ok(js.includes("Licence could not be saved"));
+});
