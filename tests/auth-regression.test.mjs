@@ -169,5 +169,7 @@ test("officer list supports search and a five-row scrolling viewport", () => {
   assert.ok(html.includes("max-height:305px"), "officer viewport is not constrained to approximately five rows");
   assert.ok(html.includes("position:sticky"), "officer table headings do not remain visible while scrolling");
   assert.ok(js.includes("function filterOfficers()"), "officer search filter missing");
-  assert.ok(js.includes('addEventListener("input",filterOfficers)'), "officer search is not live");
+  assert.ok(js.includes('search.addEventListener("input",filterOfficers)'), "officer search is not bound after workspace rendering");
+  assert.ok(js.includes('row.style.display=match?"":"none"'), "officer rows are not immediately shown/hidden while typing");
+  assert.ok(js.includes('search.dataset.liveSearch="true"'), "live search binding can be duplicated");
 });
