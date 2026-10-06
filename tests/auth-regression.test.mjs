@@ -134,3 +134,10 @@ test("active expiry bands use graduated warning colours and primary save actions
   assert.match(html, /id="addOfficer" class="success-action"/);
   assert.ok(js.includes('count?"has-alert alert-"+tone:""'), "empty warning cards should remain neutral");
 });
+
+
+test("licence registration selector excludes officers already registered", () => {
+  assert.ok(js.includes("registeredIds=new Set(rows.map(l=>l.officerId))"), "registered officer IDs are not derived from licence records");
+  assert.ok(js.includes("officerCache.filter(o=>!registeredIds.has(o.id))"), "registered officers remain available for new licence registration");
+  assert.ok(js.includes("Selected officer"), "renewal update cannot retain its existing registered officer");
+});
