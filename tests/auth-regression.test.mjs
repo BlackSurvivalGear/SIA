@@ -77,7 +77,7 @@ test("workspace prioritises compliance monitoring over administration", () => {
   const officers = html.indexOf("<h2>Officers</h2>");
   const register = html.indexOf("<h2>SIA Licence Register</h2>");
   const addOfficer = html.indexOf("<h2>Add officer</h2>");
-  assert.ok(company < expiry && expiry < officers && officers < register && register < addOfficer, "workspace panel order regressed");
+  assert.ok(company < expiry && expiry < register && register < officers && officers < addOfficer, "workspace panel order regressed");
   assert.ok(!html.includes("Phase 1 workforce foundation"), "development-only Phase 1 label is visible");
 });
 
