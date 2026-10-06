@@ -230,3 +230,15 @@ test("company settings removes excluded fields and separates user management", (
   assert.ok(js.includes('deleteDoc(doc(db,"companies",companyId,"members"'), "Remove does not delete company membership");
   assert.ok(js.includes('self?"Current user"'), "current user is not protected from self-removal");
 });
+
+
+test("company user invitations join the existing tenant securely", () => {
+  assert.ok(js.includes("async function claimCompanyInvite(u)"), "invited-user claim flow missing");
+  assert.ok(js.includes('doc(db,"invitations",email)'), "email invitation record missing");
+  assert.ok(js.includes('invite.companyId,"members",u.uid'), "invite does not create membership in existing company");
+  assert.ok(js.includes('{companyId:invite.companyId}'), "invite does not map user to existing company");
+  assert.ok(js.includes("Access invitation created."), "admin receives no invitation confirmation");
+  assert.ok(rules.includes("match /invitations/{email}"), "invitation security rules missing");
+  assert.ok(rules.includes("request.resource.data.role in ['admin','viewer']"), "invitation roles are not restricted");
+  assert.ok(rules.includes("exists(/databases/$(database)/documents/invitations/$(request.auth.token.email))"), "membership creation is not gated by invitation");
+});
