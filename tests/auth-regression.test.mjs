@@ -262,3 +262,11 @@ test("company user limit is five including owner", () => {
   assert.ok(js.includes("members.size>=COMPANY_USER_LIMIT"), "Add user does not enforce company user limit");
   assert.ok(html.includes("Maximum 5 users including the Owner."), "user limit guidance missing");
 });
+
+
+test("officers can be deleted with confirmation", () => {
+  assert.ok(js.includes("data-delete-officer"), "officer Delete action missing");
+  assert.ok(js.includes("This cannot be undone."), "officer deletion confirmation missing");
+  assert.ok(js.includes("btn.dataset.deleteOfficer"), "officer delete target missing");
+  assert.ok(js.includes('siaLicences",btn.dataset.deleteOfficer'), "linked SIA licence is not deleted");
+});
