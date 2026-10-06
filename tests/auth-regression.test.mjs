@@ -181,7 +181,7 @@ test("authentication controls are bound explicitly and only once", () => {
   assert.ok(js.includes('if($("authSubmit").dataset.bound)return'), "auth controls lack duplicate-binding guard");
   assert.ok(js.includes('$("authSubmit").onclick=()=>'), "email/password sign-in button is not bound");
   assert.ok(js.includes('$("googleSignIn").onclick=()=>signInWithPopup'), "Google sign-in button is not bound");
-  assert.ok(js.includes("bindAuthControls();"), "auth controls are not initialised");
+  assert.ok(js.includes("}bindAuthControls();"), "auth controls are not initialised");
 });
 
 
@@ -269,4 +269,13 @@ test("officers can be deleted with confirmation", () => {
   assert.ok(js.includes("This cannot be undone."), "officer deletion confirmation missing");
   assert.ok(js.includes("btn.dataset.deleteOfficer"), "officer delete target missing");
   assert.ok(js.includes('siaLicences",btn.dataset.deleteOfficer'), "linked SIA licence is not deleted");
+});
+
+
+test("auth initialization has no recursive binding", () => {
+  assert.ok(!js.includes('dataset.bound="true";bindAuthControls();'), "bindAuthControls recursively calls itself");
+});
+
+test("company user limit is declared once", () => {
+  assert.equal((js.match(/const COMPANY_USER_LIMIT=5/g)||[]).length,1,"COMPANY_USER_LIMIT is duplicated");
 });
