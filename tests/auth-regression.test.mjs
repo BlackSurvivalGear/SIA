@@ -84,7 +84,7 @@ test("workspace prioritises compliance monitoring over administration", () => {
 
 test("SIA licence rows support renewal updates", () => {
   assert.match(html, /<th>Update<\/th>/);
-  for (const token of ["data-update-licence","licenceCache","Update licence","licenceIssueDate","licenceExpiryDate"]) assert.ok(js.includes(token), `missing licence update contract: ${token}`);
+  for (const token of ["data-update-licence","licenceCache","Update licence","licenceExpiryDate"]) assert.ok(js.includes(token), `missing licence update contract: ${token}`);
 });
 
 
@@ -96,4 +96,12 @@ test("officer list follows licence register and provides contact actions", () =>
   assert.match(html, /<th>Contact<\/th>/);
   assert.ok(js.includes('href="tel:'), "missing Call action");
   assert.ok(js.includes("https://wa.me/"), "missing WhatsApp action");
+});
+
+
+test("SIA licence workflow does not request or display issue date", () => {
+  assert.ok(!html.includes("licenceIssueDate"), "issue date input returned");
+  assert.ok(!html.includes("<th>Issue</th>"), "issue date column returned");
+  assert.ok(!js.includes("issueDate"), "issue date remains in active licence workflow");
+  assert.ok(js.includes("verifiedDate"), "verification date must remain for audit evidence");
 });
