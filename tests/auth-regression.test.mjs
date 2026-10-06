@@ -151,9 +151,9 @@ test("active compliance warnings use bold urgency colours and GitHub-style green
 
 
 test("officer contact actions include an Email mailto button", () => {
-  assert.ok(js.includes("data-email"), "missing Email contact button");
-  assert.ok(js.includes('window.location.href="mailto:"+btn.dataset.email'), "Email button is not wired to mailto");
-  assert.ok(js.includes(">Email</button>"), "Email action is not rendered as a button");
+  assert.ok(js.includes('href="mailto:${encodeURIComponent(o.email)}"'), "Email action is not a native mailto control");
+  assert.ok(js.includes("email-btn"), "Email mailto control is missing button styling");
+  assert.ok(!js.includes("data-email"), "obsolete JavaScript email click handler remains");
 });
 
 
