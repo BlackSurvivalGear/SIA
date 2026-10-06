@@ -270,3 +270,15 @@ test("officers can be deleted with confirmation", () => {
   assert.ok(js.includes("btn.dataset.deleteOfficer"), "officer delete target missing");
   assert.ok(js.includes('siaLicences",btn.dataset.deleteOfficer'), "linked SIA licence is not deleted");
 });
+
+
+test("auth control binding cannot recursively call itself", () => {
+  const start=js.indexOf("function bindAuthControls()");
+  const end=js.indexOf("function ",start+9);
+  const body=js.slice(start,end>start?end:start+500);
+  assert.equal((body.match(/bindAuthControls\(\)/g)||[]).length,1,"bindAuthControls recursively calls itself");
+});
+
+test("company user limit constant is declared once", () => {
+  assert.equal((js.match(/const COMPANY_USER_LIMIT=5/g)||[]).length,1,"company user limit constant is duplicated");
+});
