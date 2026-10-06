@@ -222,9 +222,11 @@ test("company settings are editable and persist to the current tenant", () => {
 
 test("company settings removes excluded fields and separates user management", () => {
   for (const id of ["settingsTradingName","settingsCompanyNumber","settingsPhone","settingsOperationalAddress"]) assert.ok(!html.includes(`id="${id}"`), `excluded setting remains: ${id}`);
-  assert.ok(html.includes('id="openAddUser"'), "Add user button missing");
-  assert.ok(html.includes('id="addUserCard"'), "separate Add user card missing");
+  assert.ok(html.includes('id="addCompanyUser"'), "Add user button missing");
   assert.ok(html.includes('id="newUserEmail"'), "new user email field missing");
   assert.ok(html.includes('id="newUserRole"'), "new user role selector missing");
-  assert.ok(js.includes('$("openAddUser").onclick'), "Add user card is not wired");
+  assert.ok(js.includes('async function loadCompanyUsers()'), "existing company users are not loaded");
+  assert.ok(js.includes('data-remove-user'), "user removal control missing");
+  assert.ok(js.includes('deleteDoc(doc(db,"companies",companyId,"members"'), "Remove does not delete company membership");
+  assert.ok(js.includes('self?"Current user"'), "current user is not protected from self-removal");
 });
