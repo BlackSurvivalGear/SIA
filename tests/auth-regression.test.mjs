@@ -94,8 +94,10 @@ test("officer list follows licence register and provides contact actions", () =>
   const addOfficer = html.indexOf("<h2>Add officer</h2>");
   assert.ok(register < officers && officers < addOfficer, "officer panel order regressed");
   assert.match(html, /<th>Contact<\/th>/);
-  assert.ok(js.includes('href="tel:'), "missing Call action");
-  assert.ok(js.includes("https://wa.me/"), "missing WhatsApp action");
+  assert.ok(js.includes("data-call"), "missing Call button action");
+  assert.ok(js.includes("data-whatsapp"), "missing WhatsApp button action");
+  assert.ok(js.includes('window.location.href="tel:"+btn.dataset.call'), "Call button is not wired to the phone action");
+  assert.ok(js.includes('window.open("https://wa.me/"+btn.dataset.whatsapp'), "WhatsApp button is not wired to WhatsApp");
 });
 
 
@@ -105,4 +107,11 @@ test("SIA licence workflow uses expiry and verification dates only", () => {
   assert.ok(!js.includes("issueDate"), "issue date remains in active licence workflow");
   assert.ok(js.includes("expiryDate"), "expiry date must remain for monitoring");
   assert.ok(js.includes("verifiedDate"), "verification date must remain for audit evidence");
+});
+
+
+test("expiry warning cards expand to matching officer details", () => {
+  for (const token of ["data-alert-band","data-alert-details","aria-expanded","Select a warning card"]) assert.ok(js.includes(token), `missing interactive expiry contract: ${token}`);
+  for (const heading of ["Name","Email","Phone","SIA Licence","Contact"]) assert.ok(js.includes(`<th>${heading}</th>`), `missing expiry officer field: ${heading}`);
+  assert.ok(js.includes("contactButtons(o)"), "expiry details do not reuse officer contact actions");
 });
