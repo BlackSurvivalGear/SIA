@@ -270,3 +270,12 @@ test("officers can be deleted with confirmation", () => {
   assert.ok(js.includes("btn.dataset.deleteOfficer"), "officer delete target missing");
   assert.ok(js.includes('siaLicences",btn.dataset.deleteOfficer'), "linked SIA licence is not deleted");
 });
+
+
+test("auth initialization has no recursive binding", () => {
+  assert.ok(!js.includes('dataset.bound="true";bindAuthControls();'), "bindAuthControls recursively calls itself");
+});
+
+test("company user limit is declared once", () => {
+  assert.equal((js.match(/const COMPANY_USER_LIMIT=5/g)||[]).length,1,"COMPANY_USER_LIMIT is duplicated");
+});
