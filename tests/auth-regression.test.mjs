@@ -96,7 +96,8 @@ test("officer list follows licence register and provides contact actions", () =>
   assert.match(html, /<th>Contact<\/th>/);
   assert.ok(js.includes("data-call"), "missing Call button action");
   assert.ok(js.includes("data-whatsapp"), "missing WhatsApp button action");
-  assert.ok(!js.includes('href="tel:'), "Call action regressed to a link");
+  assert.ok(js.includes('window.location.href="tel:"+btn.dataset.call'), "Call button is not wired to the phone action");
+  assert.ok(js.includes('window.open("https://wa.me/"+btn.dataset.whatsapp'), "WhatsApp button is not wired to WhatsApp");
 });
 
 
