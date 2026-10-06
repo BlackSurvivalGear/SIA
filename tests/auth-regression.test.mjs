@@ -255,3 +255,10 @@ test("invited-user workspace can finish invitation claim and render", () => {
 test("owner row never shows a Remove control", () => {
   assert.ok(js.includes('u.role==="owner"?"Owner"'), "owner is not protected from a visible Remove control");
 });
+
+
+test("company user limit is five including owner", () => {
+  assert.ok(js.includes("const COMPANY_USER_LIMIT=5"), "five-user company limit missing");
+  assert.ok(js.includes("members.size>=COMPANY_USER_LIMIT"), "Add user does not enforce company user limit");
+  assert.ok(html.includes("Maximum 5 users including the Owner."), "user limit guidance missing");
+});
