@@ -86,3 +86,14 @@ test("SIA licence rows support renewal updates", () => {
   assert.match(html, /<th>Update<\/th>/);
   for (const token of ["data-update-licence","licenceCache","Update licence","licenceIssueDate","licenceExpiryDate"]) assert.ok(js.includes(token), `missing licence update contract: ${token}`);
 });
+
+
+test("officer list follows licence register and provides contact actions", () => {
+  const register = html.indexOf("<h2>SIA Licence Register</h2>");
+  const officers = html.indexOf("<h2>Officers</h2>");
+  const addOfficer = html.indexOf("<h2>Add officer</h2>");
+  assert.ok(register < officers && officers < addOfficer, "officer panel order regressed");
+  assert.match(html, /<th>Contact<\/th>/);
+  assert.ok(js.includes('href="tel:'), "missing Call action");
+  assert.ok(js.includes("https://wa.me/"), "missing WhatsApp action");
+});
