@@ -148,3 +148,10 @@ test("active compliance warnings use bold urgency colours and GitHub-style green
   assert.ok(html.includes("#1f883d"), "primary green does not match approved GitHub-style green");
   assert.ok(html.includes(".alert-card.has-alert .alert-card-toggle strong,.alert-card.has-alert .alert-card-toggle span{color:#fff}"), "warning card text is not protected for contrast");
 });
+
+
+test("officer contact actions include an Email mailto button", () => {
+  assert.ok(js.includes("data-email"), "missing Email contact button");
+  assert.ok(js.includes('window.location.href="mailto:"+btn.dataset.email'), "Email button is not wired to mailto");
+  assert.ok(js.includes(">Email</button>"), "Email action is not rendered as a button");
+});
