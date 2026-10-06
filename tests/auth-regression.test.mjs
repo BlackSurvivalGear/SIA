@@ -141,3 +141,10 @@ test("licence registration selector excludes officers already registered", () =>
   assert.ok(js.includes("officerCache.filter(o=>!registeredIds.has(o.id))"), "registered officers remain available for new licence registration");
   assert.ok(js.includes("Selected officer"), "renewal update cannot retain its existing registered officer");
 });
+
+
+test("active compliance warnings use bold urgency colours and GitHub-style green actions", () => {
+  for (const colour of ["#8b0000","#c62828","#e64a19","#ef6c00","#f9a825"]) assert.ok(html.includes(colour), `missing bold warning colour: ${colour}`);
+  assert.ok(html.includes("#1f883d"), "primary green does not match approved GitHub-style green");
+  assert.ok(html.includes(".alert-card.has-alert .alert-card-toggle strong,.alert-card.has-alert .alert-card-toggle span{color:#fff}"), "warning card text is not protected for contrast");
+});
