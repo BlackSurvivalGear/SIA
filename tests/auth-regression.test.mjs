@@ -250,3 +250,8 @@ test("invited-user workspace can finish invitation claim and render", () => {
   assert.ok(js.includes('console.warn("Invitation consumed but cleanup is pending"'), "invitation cleanup can still abort workspace loading");
   assert.ok(js.includes('$("workspace").classList.remove("hidden")'), "authenticated company workspace reveal missing");
 });
+
+
+test("owner row never shows a Remove control", () => {
+  assert.ok(js.includes('u.role==="owner"?"Owner"'), "owner is not protected from a visible Remove control");
+});
