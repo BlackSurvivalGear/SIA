@@ -173,3 +173,12 @@ test("officer list supports search and a five-row scrolling viewport", () => {
   assert.ok(js.includes('row.style.display=match?"":"none"'), "officer rows are not immediately shown/hidden while typing");
   assert.ok(js.includes('search.dataset.liveSearch="true"'), "live search binding can be duplicated");
 });
+
+
+test("authentication controls are bound explicitly and only once", () => {
+  assert.ok(js.includes("function bindAuthControls()"), "auth control binding function missing");
+  assert.ok(js.includes('if($("authSubmit").dataset.bound)return'), "auth controls lack duplicate-binding guard");
+  assert.ok(js.includes('$("authSubmit").onclick=()=>'), "email/password sign-in button is not bound");
+  assert.ok(js.includes('$("googleSignIn").onclick=()=>signInWithPopup'), "Google sign-in button is not bound");
+  assert.ok(js.includes("bindAuthControls();"), "auth controls are not initialised");
+});
