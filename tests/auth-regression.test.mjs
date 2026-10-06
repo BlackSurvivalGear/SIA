@@ -212,9 +212,19 @@ test("company heading is centered and signed-in profile opens settings", () => {
 
 
 test("company settings are editable and persist to the current tenant", () => {
-  for (const id of ["settingsCompanyName","settingsTradingName","settingsCompanyNumber","settingsPhone","settingsCompanyEmail","settingsWebsite","settingsPrimaryContact","settingsRegisteredAddress","settingsOperationalAddress","saveCompanySettings"]) assert.ok(html.includes(`id="${id}"`), `missing company setting: ${id}`);
+  for (const id of ["settingsCompanyName","settingsCompanyEmail","settingsWebsite","settingsPrimaryContact","settingsRegisteredAddress","saveCompanySettings"]) assert.ok(html.includes(`id="${id}"`), `missing company setting: ${id}`);
   assert.ok(js.includes("function populateCompanySettings"), "saved company details are not loaded into Settings");
   assert.ok(js.includes('setDoc(doc(db,"companies",companyId),data,{merge:true})'), "company settings do not update the current company record");
   assert.ok(js.includes('$("companyTitle").textContent=name'), "company heading does not refresh after settings save");
   assert.ok(js.includes("Company details saved."), "successful settings save has no confirmation");
+});
+
+
+test("company settings removes excluded fields and separates user management", () => {
+  for (const id of ["settingsTradingName","settingsCompanyNumber","settingsPhone","settingsOperationalAddress"]) assert.ok(!html.includes(`id="${id}"`), `excluded setting remains: ${id}`);
+  assert.ok(html.includes('id="openAddUser"'), "Add user button missing");
+  assert.ok(html.includes('id="addUserCard"'), "separate Add user card missing");
+  assert.ok(html.includes('id="newUserEmail"'), "new user email field missing");
+  assert.ok(html.includes('id="newUserRole"'), "new user role selector missing");
+  assert.ok(js.includes('$("openAddUser").onclick'), "Add user card is not wired");
 });
