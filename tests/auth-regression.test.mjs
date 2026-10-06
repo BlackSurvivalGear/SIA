@@ -56,7 +56,8 @@ test("manual SIA verification copies the licence number and records the audit ma
   assert.match(html, /<th>Verify<\/th><th>Verified<\/th>/);
   assert.ok(js.includes("https://rolh.services.sia.homeoffice.gov.uk/"), "missing official SIA register destination");
   assert.ok(js.includes("navigator.clipboard.writeText"), "licence number is not copied for verification");
-  assert.ok(js.includes("Licence number copied"), "missing copied-number user hint");
+  assert.ok(js.includes('title="Copies licence number and opens SIA Register"'), "missing Verify hover hint");
+  assert.ok(js.includes("Licence number copied"), "missing copied-number confirmation hint");
   for (const token of ["verifiedAt","verifiedDate","verifiedBy","SIA verification update failed"]) {
     assert.ok(js.includes(token), `missing verification contract: ${token}`);
   }
