@@ -200,3 +200,12 @@ test("officer toolbar uses compact search with licence type filter", () => {
   assert.ok(js.includes('typeFilter.addEventListener("change",filterOfficers)'), "licence type filter is not responsive");
   assert.ok(js.includes('data-officer-type'), "officer rows do not expose licence type for filtering");
 });
+
+
+test("company heading is centered and signed-in profile opens settings", () => {
+  assert.ok(html.includes(".company-heading{text-align:center}"), "company heading is not centered");
+  assert.ok(html.includes('id="profileButton"'), "signed-in profile button missing");
+  assert.ok(html.includes('id="settingsPanel"'), "settings panel missing");
+  assert.ok(js.includes('$("profileButton").onclick=()=>$("settingsPanel").classList.toggle("hidden")'), "profile button does not open settings");
+  assert.ok(js.includes('u.photoURL||"favi.png"'), "profile image does not use the signed-in user photo with fallback");
+});
