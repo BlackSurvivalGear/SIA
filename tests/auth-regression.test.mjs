@@ -37,3 +37,11 @@ test("company bootstrap and officer persistence contract remains wired", () => {
     assert.ok(js.includes(token), `missing persistence contract: ${token}`);
   }
 });
+
+test("SIA licence register is additive and preserves officer workspace contract", () => {
+  for (const id of ["licenceOfficer","licenceNumber","licenceType","licenceExpiryDate","saveLicence","licences"]) {
+    assert.match(html, new RegExp(`id=["']${id}["']`), `missing licence register element #${id}`);
+  }
+  assert.ok(js.includes('"siaLicences"'), "missing SIA licence Firestore collection");
+  assert.ok(js.includes("licenceStatus"), "missing licence expiry status calculation");
+});
