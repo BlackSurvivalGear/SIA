@@ -181,7 +181,7 @@ test("authentication controls are bound explicitly and only once", () => {
   assert.ok(js.includes('if($("authSubmit").dataset.bound)return'), "auth controls lack duplicate-binding guard");
   assert.ok(js.includes('$("authSubmit").onclick=()=>'), "email/password sign-in button is not bound");
   assert.ok(js.includes('$("googleSignIn").onclick=()=>signInWithPopup'), "Google sign-in button is not bound");
-  assert.ok(js.includes("bindAuthControls();"), "auth controls are not initialised");
+  assert.ok(js.includes("}bindAuthControls();"), "auth controls are not initialised");
 });
 
 
