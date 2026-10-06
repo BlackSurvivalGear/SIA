@@ -80,3 +80,9 @@ test("workspace prioritises compliance monitoring over administration", () => {
   assert.ok(company < expiry && expiry < officers && officers < register && register < addOfficer, "workspace panel order regressed");
   assert.ok(!html.includes("Phase 1 workforce foundation"), "development-only Phase 1 label is visible");
 });
+
+
+test("SIA licence rows support renewal updates", () => {
+  assert.match(html, /<th>Update<\/th>/);
+  for (const token of ["data-update-licence","licenceCache","Update licence","licenceIssueDate","licenceExpiryDate"]) assert.ok(js.includes(token), `missing licence update contract: ${token}`);
+});
