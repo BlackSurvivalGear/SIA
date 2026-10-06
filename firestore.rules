@@ -8,7 +8,8 @@ service cloud.firestore {
   match /companies/{companyId} {
    allow read: if member(companyId) || (signedIn() && resource.data.ownerUid == request.auth.uid); allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid; allow update,delete: if admin(companyId);
    match /members/{uid} {allow read: if member(companyId); allow create: if signedIn() && request.auth.uid == uid; allow update,delete: if admin(companyId);}
-   match /officers/{officerId} {allow read: if member(companyId); allow write: if admin(companyId);}\n   match /siaLicences/{licenceId} {allow read: if member(companyId); allow write: if admin(companyId);}
+   match /officers/{officerId} {allow read: if member(companyId); allow write: if admin(companyId);}
+   match /siaLicences/{licenceId} {allow read: if member(companyId); allow write: if admin(companyId);}
   }
  }
 }
