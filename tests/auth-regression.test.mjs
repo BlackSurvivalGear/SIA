@@ -94,7 +94,7 @@ test("officer list follows licence register and provides contact actions", () =>
   const officers = html.indexOf("<h2>Officers</h2>");
   const addOfficer = html.indexOf("<h2>Add officer</h2>");
   assert.ok(register < officers && officers < addOfficer, "officer panel order regressed");
-  assert.match(html, /<th>Contact<\/th>/);
+  assert.match(html, /<th class="officer-delete-heading">Action<\/th>/);
   assert.ok(js.includes("data-call"), "missing Call button action");
   assert.ok(js.includes("data-whatsapp"), "missing WhatsApp button action");
   assert.ok(js.includes('window.location.href="tel:"+btn.dataset.call'), "Call button is not wired to the phone action");
@@ -113,7 +113,7 @@ test("SIA licence workflow uses expiry and verification dates only", () => {
 
 test("expiry warning cards expand to matching officer details", () => {
   for (const token of ["data-alert-band","alertDetails","aria-expanded","Select a warning card"]) assert.ok(js.includes(token), `missing interactive expiry contract: ${token}`);
-  for (const heading of ["Name","Email","Phone","SIA Licence","Contact"]) assert.ok(js.includes(`<th>${heading}</th>`), `missing expiry officer field: ${heading}`);
+  for (const heading of ["Name","Email","Phone","SIA Licence"]) assert.ok(js.includes(`<th>${heading}</th>`), `missing expiry officer field: ${heading}`);
   assert.ok(js.includes("contactButtons(o)"), "expiry details do not reuse officer contact actions");
 });
 
@@ -266,6 +266,7 @@ test("company user limit is five including owner", () => {
 
 test("officers can be deleted with confirmation", () => {
   assert.ok(js.includes("data-delete-officer"), "officer Delete action missing");
+  for (const action of ["data-call","data-whatsapp","mailto:","data-delete-officer"]) assert.ok(js.includes(action), `missing officer action: ${action}`);
   assert.ok(js.includes("This cannot be undone."), "officer deletion confirmation missing");
   assert.ok(js.includes("btn.dataset.deleteOfficer"), "officer delete target missing");
   assert.ok(js.includes('siaLicences",btn.dataset.deleteOfficer'), "linked SIA licence is not deleted");
