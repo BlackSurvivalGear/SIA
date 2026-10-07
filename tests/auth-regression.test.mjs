@@ -66,6 +66,8 @@ test("manual SIA verification copies the licence number and records the audit ma
   }
 });
 
+test("expiry monitoring results include Book action", () => { assert.ok(js.includes("<th>Book</th><th>Contact</th>")); assert.ok(js.includes("bookUrl=getLicensedBookingUrl(a.licence)")); });
+
 
 test("SIA expiry monitoring uses the approved warning bands", () => {
   for (const token of ["90 DAYS","60 DAYS","30 DAYS","14 DAYS","7 DAYS","EXPIRED"]) assert.ok(js.includes(token), `missing expiry band: ${token}`);
