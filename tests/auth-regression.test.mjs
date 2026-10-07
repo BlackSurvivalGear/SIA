@@ -75,6 +75,8 @@ test("SIA expiry monitoring uses the approved warning bands", () => {
   assert.ok(js.includes("renderExpiryAlerts(rows)"), "expiry alert summary is not rendered from licence data");
 });
 
+test("Book UX uses blue buttons only for supported courses", () => { assert.ok(js.includes('data-book-url="${url}"')); assert.ok(js.includes('data-book-url="${bookUrl}"')); assert.ok(js.includes("function bindBookButtons")); assert.ok(!js.includes("No refresher booking course is configured")); assert.ok(!js.includes("No refresher course configured")); });
+
 
 test("workspace prioritises compliance monitoring over administration", () => {
   const company = html.indexOf('id="companyTitle"');
