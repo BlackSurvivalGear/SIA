@@ -75,6 +75,8 @@ test("SIA expiry monitoring uses the approved warning bands", () => {
   assert.ok(js.includes("renderExpiryAlerts(rows)"), "expiry alert summary is not rendered from licence data");
 });
 
+test("Officer Actions normalizes WhatsApp numbers for wa.me", () => { assert.ok(js.includes('data-whatsapp="${whatsappPhone(o.phone)}"')); assert.ok(js.includes('window.open("https://wa.me/"+btn.dataset.whatsapp')); });
+
 test("Officer Actions supports editing all officer fields", () => { for (const id of ["editingOfficerId","firstName","lastName","officerEmail","phone","officerAddress","officerPostcode","officerLicenceNumber","officerLicenceType","cancelOfficerEdit"]) assert.ok(html.includes(`id="${id}"`), `missing edit field: ${id}`); assert.ok(js.includes("data-edit-officer")); assert.ok(js.includes('$("officerFormTitle").textContent="Edit officer"')); assert.ok(js.includes("if(editingId){await setDoc")); });
 
 test("Book UX uses blue buttons only for supported courses", () => { assert.ok(js.includes('data-book-url="${url}"')); assert.ok(js.includes('data-book-url="${bookUrl}"')); assert.ok(js.includes("function bindBookButtons")); assert.ok(!js.includes("No refresher booking course is configured")); assert.ok(!js.includes("No refresher course configured")); });
