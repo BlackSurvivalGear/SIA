@@ -75,6 +75,8 @@ test("SIA expiry monitoring uses the approved warning bands", () => {
   assert.ok(js.includes("renderExpiryAlerts(rows)"), "expiry alert summary is not rendered from licence data");
 });
 
+test("Expiry monitoring WhatsApp preloads licence reminder data", () => { assert.ok(js.includes("function expiryWhatsAppMessage")); assert.ok(js.includes("Licence type:")); assert.ok(js.includes("Licence number:")); assert.ok(js.includes("Expiry date:")); assert.ok(js.includes('data-whatsapp-message="${encodeURIComponent(message)}"')); assert.ok(js.includes('"&text="+encodeURIComponent(message)')); });
+
 test("Officer Actions normalizes WhatsApp numbers for direct web chat", () => { assert.ok(js.includes('data-whatsapp="${whatsappPhone(o.phone)}"')); assert.ok(js.includes('https://web.whatsapp.com/send?phone=')); assert.ok(js.includes("encodeURIComponent(number)")); });
 
 test("Officer Actions supports editing all officer fields", () => { for (const id of ["editingOfficerId","firstName","lastName","officerEmail","phone","officerAddress","officerPostcode","officerLicenceNumber","officerLicenceType","cancelOfficerEdit"]) assert.ok(html.includes(`id="${id}"`), `missing edit field: ${id}`); assert.ok(js.includes("data-edit-officer")); assert.ok(js.includes('$("officerFormTitle").textContent="Edit officer"')); assert.ok(js.includes("if(editingId){await setDoc")); });
