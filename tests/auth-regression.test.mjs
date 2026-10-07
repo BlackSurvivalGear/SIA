@@ -164,10 +164,11 @@ test("expanded expiry officer rows show licence type", () => {
 });
 
 
-test("officer list supports search and a five-row scrolling viewport", () => {
+test("officer list supports search and an expandable taller viewport", () => {
   assert.ok(html.includes('id="officerSearch"'), "officer search input missing");
   assert.ok(html.includes("officer-table-scroll"), "officer scrolling viewport missing");
-  assert.ok(html.includes("max-height:305px"), "officer viewport is not constrained to approximately five rows");
+  assert.ok(html.includes("max-height:560px"), "officer viewport is not using the approved taller frame");
+  assert.ok(html.includes(".officer-table-scroll.expanded{max-height:none;overflow-y:visible}"), "expanded officer viewport missing");
   assert.ok(html.includes("position:sticky"), "officer table headings do not remain visible while scrolling");
   assert.ok(js.includes("function filterOfficers()"), "officer search filter missing");
   assert.ok(js.includes('search.addEventListener("input",filterOfficers)'), "officer search is not bound after workspace rendering");
