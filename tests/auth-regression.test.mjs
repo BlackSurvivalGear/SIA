@@ -128,7 +128,7 @@ test("SIA licence workflow uses expiry and verification dates only", () => {
 test("expiry warning cards expand to matching officer details", () => {
   for (const token of ["data-alert-band","alertDetails","aria-expanded","Select a warning card"]) assert.ok(js.includes(token), `missing interactive expiry contract: ${token}`);
   for (const heading of ["Name","Email","Phone","SIA Licence"]) assert.ok(js.includes(`<th>${heading}</th>`), `missing expiry officer field: ${heading}`);
-  assert.ok(js.includes("contactButtons(o)"), "expiry details do not reuse officer contact actions");
+  assert.ok(js.includes("contactButtons(o,expiryWhatsAppMessage(o,a.licence,a.days))"), "expiry details do not reuse officer contact actions with reminder data");
 });
 
 
