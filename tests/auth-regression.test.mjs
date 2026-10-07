@@ -270,6 +270,7 @@ test("company user limit is five including owner", () => {
 test("officers can be deleted with confirmation", () => {
   assert.ok(js.includes("data-delete-officer"), "officer Delete action missing");
   for (const action of ["data-call","data-whatsapp","mailto:","data-delete-officer"]) assert.ok(js.includes(action), `missing officer action: ${action}`);
+  assert.ok(js.includes('details.officer-actions[open]') && js.includes('menu.addEventListener("mouseleave"') && js.includes('action.addEventListener("click"'), "officer action menus do not enforce single-open and close-on-exit/click behaviour");
   assert.ok(js.includes("This cannot be undone."), "officer deletion confirmation missing");
   assert.ok(js.includes("btn.dataset.deleteOfficer"), "officer delete target missing");
   assert.ok(js.includes('siaLicences",btn.dataset.deleteOfficer'), "linked SIA licence is not deleted");
