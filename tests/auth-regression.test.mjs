@@ -102,7 +102,7 @@ test("SIA licence rows support renewal updates", () => {
 test("officer list follows licence register and provides contact actions", () => {
   const register = html.indexOf("<h2>SIA Licence Register</h2>");
   const officers = html.indexOf("<h2>Officers</h2>");
-  const addOfficer = html.indexOf("<h2>Add officer</h2>");
+  const addOfficer = html.indexOf('id="officerFormTitle">Add officer</h2>');
   assert.ok(register < officers && officers < addOfficer, "officer panel order regressed");
   assert.match(html, /<th class="officer-delete-heading">Action<\/th>/);
   assert.ok(js.includes("data-call"), "missing Call button action");
