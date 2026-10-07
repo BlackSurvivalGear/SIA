@@ -88,6 +88,8 @@ test("workspace prioritises compliance monitoring over administration", () => {
   assert.ok(!html.includes("Phase 1 workforce foundation"), "development-only Phase 1 label is visible");
 });
 
+test("Get Licensed handover copies the officer postcode", () => { assert.ok(js.includes("async function copyBookingPostcode")); assert.ok(js.includes("navigator.clipboard.writeText(value)")); assert.ok(js.includes('data-postcode="${o?.postcode||""}"')); assert.ok(js.includes('data-postcode="${o.postcode||""}"')); assert.ok(js.includes("Paste it into Your Location on Get Licensed.")); });
+
 
 test("SIA licence rows support renewal updates", () => {
   assert.match(html, /<th>Update<\/th>/);
