@@ -186,7 +186,7 @@ test("authentication controls are bound explicitly and only once", () => {
 
 
 test("officers show licence Type after Phone and Add officer captures it", () => {
-  assert.ok(html.includes("<th>Phone</th><th>Type</th><th>SIA Licence</th>"), "Type column is not positioned after Phone");
+  assert.ok(html.includes("<th>Phone</th><th>Address</th><th>Postcode</th><th>Licence number</th><th>Type</th><th>SIA Licence</th>"), "Officer data columns are not positioned before Type and SIA Licence");
   assert.ok(html.includes('id="officerLicenceType"'), "Add officer licence type field missing");
   assert.ok(js.includes('id="officerType-${o.id}"'), "officer Type cell missing");
   assert.ok(js.includes('typeCell.textContent=l.licenceType||"—"'), "registered licence type does not update officer row");
