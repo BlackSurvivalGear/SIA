@@ -53,6 +53,8 @@ test("SIA licence save failures are visible instead of appearing unresponsive", 
 });
 
 
+test("Book action maps supported refresher types safely", () => { assert.ok(js.includes("getLicensedRefresherPages")); assert.ok(js.includes("sia-top-up-refresher-training-door-supervisor")); assert.ok(js.includes("sia-top-up-refresher-training-security-guard")); assert.ok(js.includes("courseid=152")); assert.ok(js.includes("encodeURIComponent(postcode)")); });
+
 test("manual SIA verification copies the licence number and records the audit marker", () => {
   assert.match(html, /<th>Verified<\/th><th>Verify<\/th><th>Book<\/th><th>Update<\/th>/);
   assert.ok(js.includes("https://rolh.services.sia.homeoffice.gov.uk/"), "missing official SIA register destination");
