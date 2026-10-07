@@ -75,6 +75,8 @@ test("SIA expiry monitoring uses the approved warning bands", () => {
   assert.ok(js.includes("renderExpiryAlerts(rows)"), "expiry alert summary is not rendered from licence data");
 });
 
+test("Officer Actions supports editing all officer fields", () => { for (const id of ["editingOfficerId","firstName","lastName","officerEmail","phone","officerAddress","officerPostcode","officerLicenceNumber","officerLicenceType","cancelOfficerEdit"]) assert.ok(html.includes(`id="${id}"`), `missing edit field: ${id}`); assert.ok(js.includes("data-edit-officer")); assert.ok(js.includes('$("officerFormTitle").textContent="Edit officer"')); assert.ok(js.includes("if(editingId){await setDoc")); });
+
 test("Book UX uses blue buttons only for supported courses", () => { assert.ok(js.includes('data-book-url="${url}"')); assert.ok(js.includes('data-book-url="${bookUrl}"')); assert.ok(js.includes("function bindBookButtons")); assert.ok(!js.includes("No refresher booking course is configured")); assert.ok(!js.includes("No refresher course configured")); });
 
 
@@ -83,7 +85,7 @@ test("workspace prioritises compliance monitoring over administration", () => {
   const expiry = html.indexOf("Licence Expiry Monitoring");
   const officers = html.indexOf("<h2>Officers</h2>");
   const register = html.indexOf("<h2>SIA Licence Register</h2>");
-  const addOfficer = html.indexOf("<h2>Add officer</h2>");
+  const addOfficer = html.indexOf('id="officerFormTitle">Add officer</h2>');
   assert.ok(company < expiry && expiry < register && register < officers && officers < addOfficer, "workspace panel order regressed");
   assert.ok(!html.includes("Phase 1 workforce foundation"), "development-only Phase 1 label is visible");
 });
@@ -100,7 +102,7 @@ test("SIA licence rows support renewal updates", () => {
 test("officer list follows licence register and provides contact actions", () => {
   const register = html.indexOf("<h2>SIA Licence Register</h2>");
   const officers = html.indexOf("<h2>Officers</h2>");
-  const addOfficer = html.indexOf("<h2>Add officer</h2>");
+  const addOfficer = html.indexOf('id="officerFormTitle">Add officer</h2>');
   assert.ok(register < officers && officers < addOfficer, "officer panel order regressed");
   assert.match(html, /<th class="officer-delete-heading">Action<\/th>/);
   assert.ok(js.includes("data-call"), "missing Call button action");
