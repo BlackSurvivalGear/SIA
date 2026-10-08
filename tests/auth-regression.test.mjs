@@ -108,7 +108,7 @@ test("officer list follows licence register and provides contact actions", () =>
   const officers = html.indexOf("<h2>Officers</h2>");
   const addOfficer = html.indexOf('id="officerFormTitle">Add officer</h2>');
   assert.ok(register < officers && officers < addOfficer, "officer panel order regressed");
-  assert.match(html, /<th class="officer-delete-heading">Action<\/th>/);
+  assert.match(html, /<th class="officer-delete-heading">Actions<\/th>/);
   assert.ok(js.includes("data-call"), "missing Call button action");
   assert.ok(js.includes("data-whatsapp"), "missing WhatsApp button action");
   assert.ok(js.includes('window.location.href="tel:"+btn.dataset.call'), "Call button is not wired to the phone action");
@@ -201,7 +201,7 @@ test("authentication controls are bound explicitly and only once", () => {
 
 
 test("officers show licence Type after Phone and Add officer captures it", () => {
-  assert.ok(html.includes("<th>Phone</th><th>Location</th><th>SIA No.</th><th>Type</th><th>SIA Licence</th>"), "Compact Officer columns are not positioned before Type and SIA Licence");
+  assert.ok(html.includes("<th>Officer / Contact</th><th>Location</th><th>SIA No. / Type</th><th>SIA Licence</th>"), "Compact Officer columns are not present");
   assert.ok(html.includes('id="officerListToggle"') && html.includes("Show More"), "Officer Show More control missing");
   assert.ok(js.includes('[o.address,o.postcode].filter(Boolean).join(", ")'), "Officer address and postcode are not combined into Location");
   assert.ok(html.includes('id="officerLicenceType"'), "Add officer licence type field missing");
@@ -313,7 +313,7 @@ test("officer creation rejects missing first or last name",()=>{assert.ok(js.inc
 test("officers register uses compact five-column headings",()=>{for(const h of ["Officer / Contact","Location","SIA No. / Type","SIA Licence","Actions"])assert.ok(html.includes("<th"+(h==="Actions"?' class="officer-delete-heading"':"")+">"+h+"</th>"))});
 
 
-test("officer creation reads saved data before clearing form",()=>{assert.ok(js.includes("const check=await getDoc(saved)"));assert.ok(js.includes("check.data().firstName!==officerData.firstName"));assert.ok(js.includes("Your form has been kept"))});
+test("officer creation reads saved data before clearing form",()=>{assert.ok(js.includes("const check=await getDoc(saved)"));assert.ok(js.includes("check.data()[field]!==officerData[field]"));assert.ok(js.includes("Your form has been kept"))});
 
 
 test("officer save verifies all submitted fields and protects against duplicate clicks",()=>{assert.ok(js.includes('if(saveButton.disabled)return'));assert.ok(js.includes('saveButton.disabled=true;try{'));assert.ok(js.includes('["firstName","lastName","email","phone","address","postcode","licenceNumber","licenceType"].some(field=>check.data()[field]!==officerData[field])'));assert.ok(js.includes('finally{saveButton.disabled=false}'))});
