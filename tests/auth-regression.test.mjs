@@ -66,7 +66,7 @@ test("manual SIA verification copies the licence number and records the audit ma
   }
 });
 
-test("expiry monitoring results include Book action", () => { assert.ok(js.includes("<th>Book</th><th>Contact</th>")); assert.ok(js.includes("bookUrl=getLicensedBookingUrl(a.licence)")); });
+test("expiry monitoring results include Book action", () => { assert.ok(js.includes("Book refresher") && js.includes("expiry-actions")); assert.ok(js.includes("bookUrl=getLicensedBookingUrl(a.licence)")); });
 
 
 test("SIA expiry monitoring uses the approved warning bands", () => {
@@ -127,7 +127,7 @@ test("SIA licence workflow uses expiry and verification dates only", () => {
 
 test("expiry warning cards expand to matching officer details", () => {
   for (const token of ["data-alert-band","alertDetails","aria-expanded","Select a warning card"]) assert.ok(js.includes(token), `missing interactive expiry contract: ${token}`);
-  for (const heading of ["Name","Email","Phone","SIA Licence"]) assert.ok(js.includes(`<th>${heading}</th>`), `missing expiry officer field: ${heading}`);
+  for (const heading of ["Officer","Licence / Expiry","Warning","Actions"]) assert.ok(js.includes(`<th>${heading}</th>`), `missing expiry officer field: ${heading}`);
   assert.ok(js.includes("contactButtons(o,expiryWhatsAppMessage(o,a.licence,a.days))"), "expiry details do not reuse officer contact actions with reminder data");
 });
 
@@ -173,7 +173,7 @@ test("officer contact actions include an Email mailto button", () => {
 
 
 test("expanded expiry officer rows show licence type", () => {
-  assert.ok(js.includes("<th>Licence Type</th>"), "expiry details are missing Licence Type heading");
+  assert.ok(js.includes("<th>Licence / Expiry</th>"), "expiry details are missing Licence Type heading");
   assert.ok(js.includes('a.licence.licenceType||"—"'), "expiry details are missing the officer licence type");
 });
 
@@ -301,6 +301,9 @@ test("company user limit is declared once", () => {
 
 
 test("warning sent tracking records independent periods with timestamp and manual confirmation", () => {
-  for (const token of ["function warningSentCell", "function bindWarningSentButtons", "data-mark-warning", "data-warning-period", "Mark as Sent", "Not Sent", "sentAt:new Date().toISOString()", "warningSent:{...(licence.warningSent||{})", 'confirm("Confirm "+period+']) { assert.ok(js.includes(token), "missing warning sent contract: "+token); }
+  for (const token of ["function warningSentCell", "function bindWarningSentButtons", "data-mark-warning", "data-warning-period", "Mark warning sent", "Not Sent", "sentAt:new Date().toISOString()", "warningSent:{...(licence.warningSent||{})", 'confirm("Confirm "+period+']) { assert.ok(js.includes(token), "missing warning sent contract: "+token); }
   assert.ok(js.includes("bindWarningSentButtons(details)"));
 });
+
+
+test("expiry monitor uses four columns and grouped actions",()=>{for(const name of ["<th>Officer</th>","<th>Licence / Expiry</th>","<th>Warning</th>","<th>Actions</th>","expiry-actions","Mark warning sent"])assert.ok(js.includes(name),name);assert.ok(html.includes("expiry-compact-table"))});
