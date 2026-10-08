@@ -307,3 +307,6 @@ test("warning sent tracking records independent periods with timestamp and manua
 
 
 test("expiry monitor uses four columns and grouped actions",()=>{for(const name of ["<th>Officer</th>","<th>Licence / Expiry</th>","<th>Warning</th>","<th>Actions</th>","expiry-actions","Mark as Sent"])assert.ok(js.includes(name),name);assert.ok(html.includes("expiry-compact-table"))});
+
+
+test("warning sent confirmation updates the visible cell without page reload",()=>{assert.ok(js.includes('cell.innerHTML=warningSentCell({band:period,licence})'));assert.ok(js.includes('licence.warningSent={...(licence.warningSent||{}),[period]:{sentAt:sentAt}}'))});
