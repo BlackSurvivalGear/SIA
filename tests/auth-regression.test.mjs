@@ -301,9 +301,9 @@ test("company user limit is declared once", () => {
 
 
 test("warning sent tracking records independent periods with timestamp and manual confirmation", () => {
-  for (const token of ["function warningSentCell", "function bindWarningSentButtons", "data-mark-warning", "data-warning-period", "Mark warning sent", "Not Sent", "sentAt:new Date().toISOString()", "warningSent:{...(licence.warningSent||{})", 'confirm("Confirm "+period+']) { assert.ok(js.includes(token), "missing warning sent contract: "+token); }
+  for (const token of ["function warningSentCell", "function bindWarningSentButtons", "data-mark-warning", "data-warning-period", "Mark as Sent", "Not Sent", "sentAt:new Date().toISOString()", "warningSent:{...(licence.warningSent||{})", 'confirm("Confirm "+period+']) { assert.ok(js.includes(token), "missing warning sent contract: "+token); }
   assert.ok(js.includes("bindWarningSentButtons(details)"));
 });
 
 
-test("expiry monitor uses four columns and grouped actions",()=>{for(const name of ["<th>Officer</th>","<th>Licence / Expiry</th>","<th>Warning</th>","<th>Actions</th>","expiry-actions","Mark warning sent"])assert.ok(js.includes(name),name);assert.ok(html.includes("expiry-compact-table"))});
+test("expiry monitor uses four columns and grouped actions",()=>{for(const name of ["<th>Officer</th>","<th>Licence / Expiry</th>","<th>Warning</th>","<th>Actions</th>","expiry-actions","Mark as Sent"])assert.ok(js.includes(name),name);assert.ok(html.includes("expiry-compact-table"))});
