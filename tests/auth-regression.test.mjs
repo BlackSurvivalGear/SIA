@@ -301,6 +301,6 @@ test("company user limit is declared once", () => {
 
 
 test("warning sent tracking records independent periods with timestamp and manual confirmation", () => {
-  for (const token of ["function warningSentCell", "function bindWarningSentButtons", "data-mark-warning", "data-warning-period", "Mark as Sent", "Not Sent", "sentAt:new Date().toISOString()", "warningSent:{...(licence.warningSent||{})", "Confirm "+'"']) { assert.ok(js.includes(token), "missing warning sent contract: "+token); }
+  for (const token of ["function warningSentCell", "function bindWarningSentButtons", "data-mark-warning", "data-warning-period", "Mark as Sent", "Not Sent", "sentAt:new Date().toISOString()", "warningSent:{...(licence.warningSent||{})", 'confirm("Confirm "+period+']) { assert.ok(js.includes(token), "missing warning sent contract: "+token); }
   assert.ok(js.includes("bindWarningSentButtons(details)"));
 });
