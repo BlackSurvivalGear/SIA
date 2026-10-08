@@ -311,3 +311,6 @@ test("expiry monitor uses four columns and grouped actions",()=>{for(const name 
 
 test("officer creation rejects missing first or last name",()=>{assert.ok(js.includes('Enter the officer first name and surname before saving.'));assert.ok(js.includes('if(!$("firstName").value.trim()||!$("lastName").value.trim())'))});
 test("officers register uses compact five-column headings",()=>{for(const h of ["Officer / Contact","Location","SIA No. / Type","SIA Licence","Actions"])assert.ok(html.includes("<th"+(h==="Actions"?' class="officer-delete-heading"':"")+">"+h+"</th>"))});
+
+
+test("officer creation reads saved data before clearing form",()=>{assert.ok(js.includes("const check=await getDoc(saved)"));assert.ok(js.includes("check.data().firstName!==officerData.firstName"));assert.ok(js.includes("Your form has been kept"))});
