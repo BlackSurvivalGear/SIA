@@ -307,3 +307,7 @@ test("warning sent tracking records independent periods with timestamp and manua
 
 
 test("expiry monitor uses four columns and grouped actions",()=>{for(const name of ["<th>Officer</th>","<th>Licence / Expiry</th>","<th>Warning</th>","<th>Actions</th>","expiry-actions","Mark warning sent"])assert.ok(js.includes(name),name);assert.ok(html.includes("expiry-compact-table"))});
+
+
+test("officer creation rejects missing first or last name",()=>{assert.ok(js.includes('Enter the officer first name and surname before saving.'));assert.ok(js.includes('if(!$("firstName").value.trim()||!$("lastName").value.trim())'))});
+test("officers register uses compact five-column headings",()=>{for(const h of ["Officer / Contact","Location","SIA No. / Type","SIA Licence","Actions"])assert.ok(html.includes("<th"+(h==="Actions"?' class="officer-delete-heading"':"")+">"+h+"</th>"))});
