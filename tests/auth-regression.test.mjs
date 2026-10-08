@@ -314,3 +314,6 @@ test("officers register uses compact five-column headings",()=>{for(const h of [
 
 
 test("officer creation reads saved data before clearing form",()=>{assert.ok(js.includes("const check=await getDoc(saved)"));assert.ok(js.includes("check.data().firstName!==officerData.firstName"));assert.ok(js.includes("Your form has been kept"))});
+
+
+test("officer save verifies all submitted fields and protects against duplicate clicks",()=>{assert.ok(js.includes('if(saveButton.disabled)return'));assert.ok(js.includes('saveButton.disabled=true;try{'));assert.ok(js.includes('["firstName","lastName","email","phone","address","postcode","licenceNumber","licenceType"].some(field=>check.data()[field]!==officerData[field])'));assert.ok(js.includes('finally{saveButton.disabled=false}'))});
