@@ -230,8 +230,10 @@ test("company heading is centered and signed-in profile opens settings", () => {
 
 
 test("company settings are editable and persist to the current tenant", () => {
-  for (const id of ["settingsCompanyName","settingsCompanyEmail","settingsWebsite","settingsPrimaryContact","settingsRegisteredAddress","saveCompanySettings"]) assert.ok(html.includes(`id="${id}"`), `missing company setting: ${id}`);
+  for (const id of ["settingsCompanyName","settingsCompanyEmail","settingsWebsite","settingsContactName","settingsContactNumber","settingsRegisteredAddress","saveCompanySettings"]) assert.ok(html.includes(`id="${id}"`), `missing company setting: ${id}`);
   assert.ok(js.includes("function populateCompanySettings"), "saved company details are not loaded into Settings");
+  assert.ok(js.includes('contactName:$("settingsContactName").value.trim()'), "contact name is not saved");
+  assert.ok(js.includes('contactNumber:$("settingsContactNumber").value.trim()'), "contact number is not saved");
   assert.ok(js.includes('setDoc(doc(db,"companies",companyId),data,{merge:true})'), "company settings do not update the current company record");
   assert.ok(js.includes('$("companyTitle").textContent=name'), "company heading does not refresh after settings save");
   assert.ok(js.includes("Company details saved."), "successful settings save has no confirmation");
