@@ -201,7 +201,7 @@ test("authentication controls are bound explicitly and only once", () => {
 
 
 test("officers show licence Type after Phone and Add officer captures it", () => {
-  assert.ok(html.includes("<th>Phone</th><th>Location</th><th>SIA No.</th><th>Type</th><th>SIA Licence</th>"), "Compact Officer columns are not positioned before Type and SIA Licence");
+  assert.ok(html.includes("<th>Officer / Contact</th><th>Location</th><th>SIA Type / Number</th><th>SIA Licence</th>"), "Combined Officer and SIA columns are missing");
   assert.ok(html.includes('id="officerListToggle"') && html.includes("Show More"), "Officer Show More control missing");
   assert.ok(js.includes('[o.address,o.postcode].filter(Boolean).join(", ")'), "Officer address and postcode are not combined into Location");
   assert.ok(html.includes('id="officerLicenceType"'), "Add officer licence type field missing");
