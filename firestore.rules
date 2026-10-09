@@ -4,7 +4,8 @@ service cloud.firestore {
   function signedIn(){return request.auth != null;}
   function platformAdmin(){return signedIn() && request.auth.token.email == "admin@lawal.org" && request.auth.token.email_verified == true;}
   function member(companyId){return signedIn() && exists(/databases/$(database)/documents/companies/$(companyId)/members/$(request.auth.uid));}
-  function admin(companyId){return member(companyId) && get(/databases/$(database)/documents/companies/$(companyId)/members/$(request.auth.uid)).data.role in ['owner','admin'];}
+  function activeCompany(companyId){return get(/databases/$(database)/documents/companies/$(companyId)).data.get('accountStatus','active') != 'suspended';}
+  function admin(companyId){return activeCompany(companyId) && member(companyId) && get(/databases/$(database)/documents/companies/$(companyId)/members/$(request.auth.uid)).data.role in ['owner','admin'];}
   match /users/{uid} { allow read, write: if signedIn() && request.auth.uid == uid; }
   match /invitations/{email} {
    allow create: if signedIn() && admin(request.resource.data.companyId) && request.resource.data.email == email && request.resource.data.role in ['admin','viewer'];
@@ -12,19 +13,20 @@ service cloud.firestore {
    allow list: if signedIn() && admin(resource.data.companyId);
    allow delete: if signedIn() && (resource.data.email == request.auth.token.email || admin(resource.data.companyId));
   }
+  match /adminAudit/{auditId} { allow read: if platformAdmin(); allow create: if platformAdmin() && request.resource.data.actorUid == request.auth.uid && request.resource.data.actorEmail == request.auth.token.email && request.resource.data.action in ['company_edit','company_suspend','company_restore','member_remove','member_role_change']; allow update,delete: if false; }
   match /companies/{companyId} {
-   allow read: if platformAdmin() || member(companyId) || (signedIn() && resource.data.ownerUid == request.auth.uid); allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid; allow update,delete: if admin(companyId);
+   allow read: if platformAdmin() || (activeCompany(companyId) && (member(companyId) || (signedIn() && resource.data.ownerUid == request.auth.uid))); allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid; allow update: if (admin(companyId) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','companyEmail','contactName','contactNumber','website','registeredAddress','primaryContact','updatedAt'])) || (platformAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','companyEmail','contactName','contactNumber','website','registeredAddress','accountStatus','suspendedAt','suspendedBy','restoredAt','restoredBy'])); allow delete: if admin(companyId);
    match /members/{uid} {
-    allow read: if platformAdmin() || member(companyId);
-    allow create: if signedIn() && request.auth.uid == uid && (
+    allow read: if platformAdmin() || (activeCompany(companyId) && member(companyId));
+    allow create: if signedIn() && activeCompany(companyId) && request.auth.uid == uid && (
      get(/databases/$(database)/documents/companies/$(companyId)).data.ownerUid == request.auth.uid ||
      (exists(/databases/$(database)/documents/invitations/$(request.auth.token.email)) &&
       get(/databases/$(database)/documents/invitations/$(request.auth.token.email)).data.companyId == companyId &&
       request.resource.data.role == get(/databases/$(database)/documents/invitations/$(request.auth.token.email)).data.role)
     );
-    allow update,delete: if admin(companyId);
+    allow update,delete: if admin(companyId) || (platformAdmin() && request.auth.uid != uid);
    }
-   match /officers/{officerId} {allow read: if platformAdmin() || member(companyId); allow write: if admin(companyId);}
+   match /officers/{officerId} {allow read: if platformAdmin() || (activeCompany(companyId) && member(companyId)); allow write: if admin(companyId);}
    match /siaLicences/{licenceId} {allow read: if platformAdmin() || member(companyId); allow write: if admin(companyId);}
   }
  }
