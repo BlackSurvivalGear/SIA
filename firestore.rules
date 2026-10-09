@@ -15,7 +15,7 @@ service cloud.firestore {
   match /companies/{companyId} {
    allow read: if platformAdmin() || member(companyId) || (signedIn() && resource.data.ownerUid == request.auth.uid); allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid; allow update,delete: if admin(companyId);
    match /members/{uid} {
-    allow read: if member(companyId);
+    allow read: if platformAdmin() || member(companyId);
     allow create: if signedIn() && request.auth.uid == uid && (
      get(/databases/$(database)/documents/companies/$(companyId)).data.ownerUid == request.auth.uid ||
      (exists(/databases/$(database)/documents/invitations/$(request.auth.token.email)) &&
