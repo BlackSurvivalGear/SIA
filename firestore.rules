@@ -25,7 +25,7 @@ service cloud.firestore {
     allow update,delete: if admin(companyId);
    }
    match /officers/{officerId} {allow read: if platformAdmin() || member(companyId); allow write: if admin(companyId);}
-   match /siaLicences/{licenceId} {allow read: if member(companyId); allow write: if admin(companyId);}
+   match /siaLicences/{licenceId} {allow read: if platformAdmin() || member(companyId); allow write: if admin(companyId);}
   }
  }
 }
