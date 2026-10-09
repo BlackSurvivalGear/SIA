@@ -2,6 +2,7 @@ rules_version = '2';
 service cloud.firestore {
  match /databases/{database}/documents {
   function signedIn(){return request.auth != null;}
+  function platformAdmin(){return signedIn() && request.auth.token.email == "admin@lawal.org" && request.auth.token.email_verified == true;}
   function member(companyId){return signedIn() && exists(/databases/$(database)/documents/companies/$(companyId)/members/$(request.auth.uid));}
   function admin(companyId){return member(companyId) && get(/databases/$(database)/documents/companies/$(companyId)/members/$(request.auth.uid)).data.role in ['owner','admin'];}
   match /users/{uid} { allow read, write: if signedIn() && request.auth.uid == uid; }
@@ -10,7 +11,7 @@ service cloud.firestore {
    allow read, delete: if signedIn() && (resource.data.email == request.auth.token.email || admin(resource.data.companyId));
   }
   match /companies/{companyId} {
-   allow read: if member(companyId) || (signedIn() && resource.data.ownerUid == request.auth.uid); allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid; allow update,delete: if admin(companyId);
+   allow read: if platformAdmin() || member(companyId) || (signedIn() && resource.data.ownerUid == request.auth.uid); allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid; allow update,delete: if admin(companyId);
    match /members/{uid} {
     allow read: if member(companyId);
     allow create: if signedIn() && request.auth.uid == uid && (
@@ -21,7 +22,7 @@ service cloud.firestore {
     );
     allow update,delete: if admin(companyId);
    }
-   match /officers/{officerId} {allow read: if member(companyId); allow write: if admin(companyId);}
+   match /officers/{officerId} {allow read: if platformAdmin() || member(companyId); allow write: if admin(companyId);}
    match /siaLicences/{licenceId} {allow read: if member(companyId); allow write: if admin(companyId);}
   }
  }
