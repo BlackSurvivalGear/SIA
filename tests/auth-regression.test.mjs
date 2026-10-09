@@ -56,7 +56,7 @@ test("SIA licence save failures are visible instead of appearing unresponsive", 
 test("Book action maps supported refresher types safely", () => { assert.ok(js.includes("getLicensedRefresherPages")); assert.ok(js.includes("course_id=149")); assert.ok(js.includes("course_id=150")); assert.ok(js.includes("courseid=152&postcode=&sortby=venue_name&view=all")); });
 
 test("manual SIA verification copies the licence number and records the audit marker", () => {
-  assert.match(html, /<th>Verified<\/th><th>Verify<\/th><th>Book<\/th><th>Update<\/th>/);
+  assert.match(html, /<th>Verified<\/th><th>Actions<\/th>/);
   assert.ok(js.includes("https://rolh.services.sia.homeoffice.gov.uk/"), "missing official SIA register destination");
   assert.ok(js.includes("navigator.clipboard.writeText"), "licence number is not copied for verification");
   assert.ok(js.includes('title="Copies licence number and opens SIA Register"'), "missing Verify hover hint");
@@ -98,7 +98,7 @@ test("Get Licensed handover copies the officer postcode", () => { assert.ok(js.i
 
 
 test("SIA licence rows support renewal updates", () => {
-  assert.match(html, /<th>Update<\/th>/);
+  assert.ok(html.includes("<th>Verified</th><th>Actions</th>") && js.includes("data-update-licence"), "licence update action must remain available in Actions menu");
   for (const token of ["data-update-licence","licenceCache","Update licence","licenceExpiryDate"]) assert.ok(js.includes(token), `missing licence update contract: ${token}`);
 });
 
