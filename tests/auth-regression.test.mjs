@@ -307,3 +307,6 @@ test("warning sent tracking records independent periods with timestamp and manua
 
 
 test("expiry monitor uses four columns and grouped actions",()=>{for(const name of ["<th>Officer</th>","<th>Licence / Expiry</th>","<th>Warning</th>","<th>Actions</th>","expiry-actions","Mark warning sent"])assert.ok(js.includes(name),name);assert.ok(html.includes("expiry-compact-table"))});
+
+
+test("UK licence date parser accepts DD/MM/YYYY without double-escaped digit classes", () => { const parser=js.match(/function parseUkLicenceDate\(value\)\{.*?\}function expiryDays/s)?.[0]; assert.ok(parser, "UK date parser missing"); assert.ok(parser.includes(String.raw`\d{2}`), "digit matching missing"); assert.ok(!parser.includes(String.raw`\\d{2}`), "digit matching is double-escaped"); assert.ok(js.includes("!expiryInput.trim()"), "required input validation must not conflate missing and invalid dates"); });
